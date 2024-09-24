@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <conio.h>
 
 const int LINECOUNT = 50;
 
@@ -20,6 +21,14 @@ char PlayerName[NAMELEN] = "NONE";
 int MonsterAtt = 10;
 int MonsterHp = 100;
 char MonsterName[NAMELEN] = "NONE";
+
+int preAtt = 0;
+int preDamage = 0;
+char preAttr[NAMELEN] = "NONE";
+char preDamaged[NAMELEN] = "NONE";
+
+
+
 
 // 아주 중요한
 void StrCopy(char* _Arr, int _BufferSize, const char* const _Name)
@@ -95,20 +104,67 @@ void MonsterStatusRender()
     StatusRender(MonsterName,UIName, MonsterAtt, MonsterHp);
 }
 
+void Damage(const char* const _AttName, const char* const _DefName, int& _DefHp, int _Att)
+{
+    // 랜더링
+    
+
+    // 게임 로직
+    _DefHp -= _Att;
+}
+void PrintDamage(const char* const _AttName, const char* const _DefName, int& _DefHp, int _Att) {
+    if (_AttName == PlayerName) {
+        system("cls");
+        PlayerStatusRender();
+        MonsterStatusRender();
+        printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", _AttName, _DefName, _Att);
+        preAtt = _Att;
+        StrCopy(preAttr, NAMELEN, _AttName);
+        StrCopy(preDamaged, NAMELEN, _DefName);
+    }
+    if (_AttName == MonsterName){
+
+        system("cls");
+        PlayerStatusRender();
+        MonsterStatusRender();
+        printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", preAttr, preDamaged, preAtt);
+        printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", _AttName, _DefName, _Att);
+
+    }
+   
+
+}
+
+
+
 int main()
 {
     // char Test0[100] = "Player";
     /*char Test1[50] = Test0;
     Test1 = Test0*/;
 
-    CreatePlayer("Player","status", 10, 100);
-    CreateMonster("Orc","status", 10, 50);
+    CreatePlayer("player","Status", 10, 100);
+    CreateMonster("Orc","Status", 10, 50);
 
-    PlayerStatusRender();
-    MonsterStatusRender();
+    while (true)
+    {
+        // 화면 전체를 지워라.
+        // 콘솔창에 다른 프로그램를 실행해주는 프로그램
+        system("cls");
 
-    // printf_s("싸운다");
-    // 나는 이걸 플레이어라고 생각할 겁니다.
+        char Input = ' ';
 
+        PlayerStatusRender();
+        MonsterStatusRender();
+        Input = _getch();
+
+        Damage(PlayerName, MonsterName, MonsterHp, PlayerAtt);
+        PrintDamage(PlayerName, MonsterName, MonsterHp, PlayerAtt);
+        Input = _getch();
+
+        Damage(MonsterName, PlayerName, PlayerHp, MonsterAtt);
+        PrintDamage(MonsterName, PlayerName, PlayerHp, MonsterAtt);
+        Input = _getch();
+    }
 
 }
