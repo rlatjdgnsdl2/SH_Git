@@ -8,6 +8,7 @@
 int NumberCount(int _Value)
 {
 	// /(나누기를 최대한) 연산을 사용하세요.
+	// 
 	// 내가 한 버전
    /* int Result = 0;
 	int DevisionNum = 1;
