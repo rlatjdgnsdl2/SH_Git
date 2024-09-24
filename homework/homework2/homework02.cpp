@@ -5,86 +5,15 @@
 
 // 음수 안함
 // 0 이외의 양수의 자릿수를 세자.
-int NumberCount(int _Value)
-{
-	// /(나누기를 최대한) 연산을 사용하세요.
-	// 
-	// 내가 한 버전
-   /* int Result = 0;
-	int DevisionNum = 1;
-	while (true)
-	{
-		if (_Value / DevisionNum==0)
-		{
-			break;
-		}
-		DevisionNum *= 10;
-		Result++;
-	}
 
-	return Result;*/
-
-	// 힌트주셔서 다시 푼것
-	int Result = 0;
-	while (true)
-	{
-		_Value /= 10;
-		Result++;
-		if (_Value == 0)
-		{
-			break;
-		}
-
-	}
-
-	return Result;
-}
 
 // 해도 되고 안해도 됩니다.
 // 내 기준으로 지금
 // _Value 를 넣어주면 Buffer에 
 // 숫자를 문자열로 만드는 함수.
-void NumberToString(char* Buffer, int BufferSize, int _Value)
-{
-	int count = NumberCount(_Value); //value 자릿수
-	if (count > BufferSize)
-	{
-		return;
-	}
-	for (int i = count - 1; i >= 0; i--)
-	{
-		//	3712 % 10 = 2 가 Buffer[3]에 들어가고 _value 371
-		//  371 % 10 = 1 가 Buffer[2]에 들어가고 _value 37
-		//  37 % 10 = 7 가 Buffer[1]에 들어가고 _value 3
-		//  3 % 10 = 3 가 Buffer[0]에 들어가고 _value 0
-		
-		int result = _Value % 10;
-		Buffer[i] = result + '0';
-		_Value /= 10;
 
-	}
-
-	
-}
 
 int main()
 {
-	// 5
-	int Result0 = NumberCount(12358);
-	// 4
-	int Result1 = NumberCount(5258);
-	// 7
-	int Result2 = NumberCount(5258111);
-
-	// 0은 영
-
-	char Buffer1[100] = { 0 };
-
-	NumberToString(Buffer1, 100, 3712);
-	char Buffer2[100] = { 0 };
-	NumberToString(Buffer2, 100, 37123213);
-	// Buffer == "3712"
-
-	int a = 0;
 
 }
