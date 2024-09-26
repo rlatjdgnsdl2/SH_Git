@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+
 //class PlayerSaveData
 //{
 //public:
@@ -53,6 +54,7 @@ public:
     int GetDamage() const
     {
         // minAtt ~ MaxAtt 사이의 숫자가 리턴되는 함수를 만드세요.
+        srand(time(nullptr));
         int randDamage = (rand() % (MaxAtt-MinAtt+1))+MinAtt;
 
         return MinAtt + randDamage;
