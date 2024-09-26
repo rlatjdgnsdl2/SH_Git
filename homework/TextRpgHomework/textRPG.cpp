@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <conio.h>
+#include <cstdlib>  
+
 
 const int LINECOUNT = 50;
 
@@ -11,24 +13,16 @@ const int NAMELEN = 10;
 // 절차지향 
 // 어떠한 현실적인 개념을 컴퓨터 세계로 끌고 들어온다.
 // 상태와 
-
-char UIName[NAMELEN] = "NONE";
-
+int PlayerAttMin = 0;
 int PlayerAtt = 0;
 int PlayerHp = 0;
+int PlayerSpeed = 10;
 char PlayerName[NAMELEN] = "NONE";
 
 int MonsterAtt = 10;
 int MonsterHp = 100;
+int MonsterSpeed = 10;
 char MonsterName[NAMELEN] = "NONE";
-
-int preAtt = 0;
-int preDamage = 0;
-char preAttr[NAMELEN] = "NONE";
-char preDamaged[NAMELEN] = "NONE";
-
-
-
 
 // 아주 중요한
 void StrCopy(char* _Arr, int _BufferSize, const char* const _Name)
@@ -52,38 +46,35 @@ void StrCopy(char* _Arr, int _BufferSize, const char* const _Name)
 // 전 많이 만들수록 좋아합니다.
 
 // 행동
-void CreatePlayer(const char* const _Ptr, const char* const _uiPtr, int _Att, int _Hp)
+void CreatePlayer(const char* const _Ptr, int _Att, int _Hp, int _Speed)
 {
     // char[100] = 300번지
     StrCopy(PlayerName, NAMELEN, _Ptr);
-    StrCopy(UIName, NAMELEN, _uiPtr);
     PlayerAtt = _Att;
     PlayerHp = _Hp;
+    PlayerSpeed = _Speed;
 }
 
 // 모든 문법은 코드를 덜치기 위해서 발전해왔습니다.
-void CreateMonster(const char* const _Ptr, const char* const _uiPtr, int _Att, int _Hp)
+void CreateMonster(const char* const _Ptr, int _Att, int _Hp, int _Speed)
 {
     StrCopy(MonsterName, NAMELEN, _Ptr);
-    StrCopy(UIName, NAMELEN, _uiPtr);
     MonsterAtt = _Att;
     MonsterHp = _Hp;
+    MonsterSpeed = _Speed;
 }
 
-void StatusRender(const char* _Name, const char* _UI, int _Att, int _HP)
+void StatusRender(const char* _Name, int _Att, int _HP)
 {
-    printf_s("%s %s", _Name ,_UI);
-
-    int nameCount = strlen(_Name);
-    int uiCount = strlen(_UI);
-    for (int i = 0; i < LINECOUNT-nameCount-uiCount-1; i += 1)
+    printf_s("%s Status", _Name);
+    int nameLineCount = LINECOUNT - strlen(_Name) - strlen(" Status");
+    for (int i = 0; i < nameLineCount; i += 1)
     {
         printf_s("-");
     }
     printf_s("\n");
     printf_s("공격력 : %d\n", _Att);
     printf_s("체력 : %d\n", _HP);
-    
 
     for (int i = 0; i < LINECOUNT; i += 1)
     {
@@ -96,44 +87,42 @@ void StatusRender(const char* _Name, const char* _UI, int _Att, int _HP)
 
 void PlayerStatusRender()
 {
-    StatusRender(PlayerName,UIName, PlayerAtt, PlayerHp);
+    StatusRender(PlayerName, PlayerAtt, PlayerHp);
 }
 
+// 편의를 위해서 랩핑했다고 한다.
 void MonsterStatusRender()
 {
-    StatusRender(MonsterName,UIName, MonsterAtt, MonsterHp);
+    StatusRender(MonsterName, MonsterAtt, MonsterHp);
 }
 
-void Damage(const char* const _AttName, const char* const _DefName, int& _DefHp, int _Att)
+// 클래스의 필요성
+// 함수는 다양한 상황에서 쓸수있게 만들수록 좋다.
+// 함수는 작은 기능을 많이 만들고 
+// 함수는 한번에 1가지 일을 할수록 좋다.
+// 로직과 랜더를 분리해야 한다.
+void DamageRender(const char* const _AttName, const char* const _DefName, int _Att)
 {
     // 랜더링
-    
+    printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", _AttName, _DefName, _Att);
+}
 
-    // 게임 로직
+void DamageLogic(int& _DefHp, int _Att)
+{
     _DefHp -= _Att;
 }
-void PrintDamage(const char* const _AttName, const char* const _DefName, int& _DefHp, int _Att) {
-    if (_AttName == PlayerName) {
-        system("cls");
-        PlayerStatusRender();
-        MonsterStatusRender();
-        printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", _AttName, _DefName, _Att);
-        preAtt = _Att;
-        StrCopy(preAttr, NAMELEN, _AttName);
-        StrCopy(preDamaged, NAMELEN, _DefName);
-    }
-    if (_AttName == MonsterName){
 
-        system("cls");
-        PlayerStatusRender();
-        MonsterStatusRender();
-        printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", preAttr, preDamaged, preAtt);
-        printf_s("%s 가 %s를 공격해서 %d의 데미지를 입혔습니다.\n", _AttName, _DefName, _Att);
-
-    }
-   
-
+void SpeedCheckRender(const char* const _Name)
+{
+    printf_s("%s 의 선공입니다\n", _Name);
 }
+
+void SetRandomSpeed() 
+{
+    PlayerSpeed = (rand() % 20);
+    MonsterSpeed = (rand() % 10);
+}
+
 
 
 
@@ -143,8 +132,15 @@ int main()
     /*char Test1[50] = Test0;
     Test1 = Test0*/;
 
-    CreatePlayer("player","Status", 10, 100);
-    CreateMonster("Orc","Status", 10, 50);
+    // 선공과 후공을 만드세요.
+    CreatePlayer("1", 10, 100, 20);
+    CreateMonster("Orc", 10, 100, 10);
+
+    // 플레이어는 0~19
+    // 몬스터는 0~9
+    // 플레이어와 몬스터는 각자 난수로 자신의 현재 스피드 능력
+    // 시작하기 전에 몬스터와 플레이어는 서로 현재 속력을 뽑아낸다.
+    // 더 높은 쪽이 먼저 공격한다.
 
     while (true)
     {
@@ -154,17 +150,66 @@ int main()
 
         char Input = ' ';
 
+
         PlayerStatusRender();
         MonsterStatusRender();
         Input = _getch();
 
-        Damage(PlayerName, MonsterName, MonsterHp, PlayerAtt);
-        PrintDamage(PlayerName, MonsterName, MonsterHp, PlayerAtt);
-        Input = _getch();
+        system("cls");
 
-        Damage(MonsterName, PlayerName, PlayerHp, MonsterAtt);
-        PrintDamage(MonsterName, PlayerName, PlayerHp, MonsterAtt);
-        Input = _getch();
+        SetRandomSpeed();
+        if (PlayerSpeed >= MonsterSpeed) 
+        {
+            // 데미지 주고
+            DamageLogic(MonsterHp, PlayerAtt);
+            // 다시 다 출력
+            PlayerStatusRender();
+            MonsterStatusRender();
+            SpeedCheckRender(PlayerName);
+            DamageRender(PlayerName, MonsterName, PlayerAtt);
+            Input = _getch();
+
+            system("cls");
+            DamageLogic(PlayerHp, MonsterAtt);
+            // 다시 다 출력
+            PlayerStatusRender();
+            MonsterStatusRender();
+            SpeedCheckRender(PlayerName);
+            DamageRender(PlayerName, MonsterName, PlayerAtt);
+            DamageRender(MonsterName, PlayerName, MonsterAtt);
+
+            Input = _getch();
+        }
+        else if (PlayerSpeed < MonsterSpeed) {
+
+
+            // 데미지 주고
+            DamageLogic(PlayerHp, MonsterAtt);
+            // 다시 다 출력
+            PlayerStatusRender();
+            MonsterStatusRender();
+            SpeedCheckRender(MonsterName);
+            DamageRender(MonsterName, PlayerName, MonsterAtt);
+            Input = _getch();
+
+            system("cls");
+            DamageLogic(MonsterHp, PlayerAtt);
+            // 다시 다 출력
+            PlayerStatusRender();
+            MonsterStatusRender();
+            SpeedCheckRender(MonsterName);
+            DamageRender(MonsterName, PlayerName, MonsterAtt);
+            DamageRender(PlayerName, MonsterName, PlayerAtt);
+
+            Input = _getch();
+
+        }
+
+
+
+
+
+        
     }
 
 }

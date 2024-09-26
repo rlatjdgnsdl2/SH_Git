@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "homework01", "homework01\ho
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextRpgHomework", "TextRpgHomework\TextRpgHomework.vcxproj", "{5C49B53A-D662-43EB-9D2E-618107473845}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task_0926", "Task_0926\Task_0926.vcxproj", "{FEB684C8-8708-4245-890E-A854E6FAE401}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{5C49B53A-D662-43EB-9D2E-618107473845}.Release|x64.Build.0 = Release|x64
 		{5C49B53A-D662-43EB-9D2E-618107473845}.Release|x86.ActiveCfg = Release|Win32
 		{5C49B53A-D662-43EB-9D2E-618107473845}.Release|x86.Build.0 = Release|Win32
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Debug|x64.ActiveCfg = Debug|x64
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Debug|x64.Build.0 = Debug|x64
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Debug|x86.ActiveCfg = Debug|Win32
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Debug|x86.Build.0 = Debug|Win32
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Release|x64.ActiveCfg = Release|x64
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Release|x64.Build.0 = Release|x64
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Release|x86.ActiveCfg = Release|Win32
+		{FEB684C8-8708-4245-890E-A854E6FAE401}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
