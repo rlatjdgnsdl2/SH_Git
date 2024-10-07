@@ -52,6 +52,7 @@ void BlackSmith::Enhance(class UPlayer& _Player)
 {
 	int EquitAtt = _Player.GetEquiAtt();
 	int Gold = _Player.GetGold();
+	_Player.SetGold(Gold - (100 * EquitAtt));
 	int result = rand() % 2;
 	if (result == 0) {
 		if (EquitAtt < 15) {
@@ -78,5 +79,5 @@ void BlackSmith::Enhance(class UPlayer& _Player)
 		_getch();
 	}
 
-	_Player.SetGold(Gold - (100 * EquitAtt));
+	
 }
